@@ -27,7 +27,7 @@ public class Rental {
 
     private boolean returned;
 
-    @OneToMany(mappedBy = "rental")
+    @ManyToMany(mappedBy = "rentals")
     private List<Book> books;
 
     @ManyToOne()
