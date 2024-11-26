@@ -2,7 +2,6 @@ package com.adriankich.library.domain.service;
 
 import com.adriankich.library.application.dto.request.RenterRequestDTO;
 import com.adriankich.library.application.dto.response.RenterResponseDTO;
-import com.adriankich.library.domain.context.ApplicationContext;
 import com.adriankich.library.domain.enums.Gender;
 import com.adriankich.library.domain.mapper.RenterMapper;
 import com.adriankich.library.domain.model.Renter;
@@ -22,9 +21,26 @@ public class RenterService {
     @Autowired
     private RenterUtilities renterUtilities;
 
+    public RenterResponseDTO getRenterById(Long id) {
+        return RenterMapper.entityToDto(renterUtilities.getRenterById(id));
+    }
+
     public RenterResponseDTO createRenter(RenterRequestDTO renterRequestDTO) {
         Renter renter = RenterMapper.dtoToEntity(renterRequestDTO);
-        renterUtilities.validateUniqueCpf(renter.getCpf());
+
+        renterUtilities.validateUniqueCpf(renter);
+        renterUtilities.validateUniqueEmail(renter);
+
+        return RenterMapper.entityToDto(renterRepository.save(renter));
+    }
+
+    public RenterResponseDTO updateRenter(Long id, RenterRequestDTO renterRequestDTO) {
+        Renter renter = renterUtilities.getRenterById(id);
+        RenterMapper.updateByDto(renterRequestDTO, renter);
+
+        renterUtilities.validateUniqueCpf(renter);
+        renterUtilities.validateUniqueEmail(renter);
+
         return RenterMapper.entityToDto(renterRepository.save(renter));
     }
 

@@ -8,5 +8,6 @@ import java.util.Optional;
 
 @Repository
 public interface RenterRepository extends JpaRepository<Renter, Long> {
-    boolean existsByCpf(String cpf);
+    Optional<Renter> findByCpf(String cpf);
+    Optional<Renter> findByEmail(String email);
 }

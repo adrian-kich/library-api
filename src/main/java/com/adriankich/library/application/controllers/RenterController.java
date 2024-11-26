@@ -16,8 +16,19 @@ public class RenterController extends Controller{
     @Autowired
     private RenterService renterService;
 
+    @GetMapping("/{id}")
+    public ResponseEntity<RenterResponseDTO> getRenterById(@PathVariable Long id) {
+        return ok(renterService.getRenterById(id));
+    }
+
     @PostMapping
     public ResponseEntity<RenterResponseDTO> createRenter(@RequestBody @Valid RenterRequestDTO renterRequestDTO) {
         return created(renterService.createRenter(renterRequestDTO));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<RenterResponseDTO> updateRenter(
+            @PathVariable Long id, @Valid @RequestBody RenterRequestDTO renterRequestDTO) {
+        return ok(renterService.updateRenter(id, renterRequestDTO));
     }
 }

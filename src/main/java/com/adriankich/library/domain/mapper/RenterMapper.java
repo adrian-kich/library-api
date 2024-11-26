@@ -33,4 +33,15 @@ public class RenterMapper {
                 .cpf(context.formatCpf(renterRequestDTO.cpf()))
                 .build();
     }
+
+    public static void updateByDto(RenterRequestDTO renterRequestDTO, Renter renter) {
+        renter.setName(renterRequestDTO.name());
+        renter.setPhone(renterRequestDTO.phone());
+        renter.setEmail(renterRequestDTO.email());
+        renter.setBirthDate(context.getLocalDate(renterRequestDTO.birthDate()));
+        renter.setCpf(context.formatCpf(renterRequestDTO.cpf()));
+
+        if(renterRequestDTO.gender() != null )
+            renter.setGender(Gender.fromValue(renterRequestDTO.gender()));
+    }
 }
