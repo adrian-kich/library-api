@@ -41,11 +41,7 @@ public class Book {
             inverseJoinColumns = @JoinColumn(name = "author_id"))
     private List<Author> authors;
 
-    @ManyToMany
-    @JoinTable(
-            name = "lib_books_rentals",
-            joinColumns = @JoinColumn(name = "book_id"),
-            inverseJoinColumns = @JoinColumn(name = "rental_id"))
+    @ManyToMany(mappedBy = "books")
     private List<Rental> rentals;
 
     @Column(name = "created_at",
@@ -63,5 +59,10 @@ public class Book {
     @PreUpdate
     public void preUpdate() {
         this.updatedAt = LocalDateTime.now();
+    }
+
+    public void addAuthor(Author author) {
+        authors.add(author);
+        author.getBooks().add(this);
     }
 }
