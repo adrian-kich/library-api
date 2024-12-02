@@ -11,6 +11,8 @@ public class ApplicationContext {
     private static final ApplicationContext INSTANCE = new ApplicationContext();
     private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 
+    public static final Long CURRENT_YEAR = (long) LocalDate.now().getYear();
+
     public static ApplicationContext getInstance() {
         return INSTANCE;
     }
