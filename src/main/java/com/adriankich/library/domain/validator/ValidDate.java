@@ -6,11 +6,11 @@ import jakarta.validation.Payload;
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = DateFormatValidator.class)
+@Constraint(validatedBy = DateValidator.class)
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface DateFormat {
-    String message() default "Formato de data inválido. Utilize o formato esperado: 'dd-MM-yyyy'";
+public @interface ValidDate {
+    String message() default "";
 
     Class<?>[] groups() default {};
 

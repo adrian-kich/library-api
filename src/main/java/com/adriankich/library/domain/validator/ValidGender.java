@@ -6,10 +6,10 @@ import jakarta.validation.Payload;
 import java.lang.annotation.*;
 
 @Documented
-@Constraint(validatedBy = GenderFormatValidator.class)
+@Constraint(validatedBy = GenderValidator.class)
 @Target({ ElementType.FIELD })
 @Retention(RetentionPolicy.RUNTIME)
-public @interface GenderFormat {
+public @interface ValidGender {
     String message() default "O sexo deve ser Masculino, Feminino ou Outro.";
 
     Class<?>[] groups() default {};
