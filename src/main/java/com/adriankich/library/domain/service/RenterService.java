@@ -1,16 +1,24 @@
 package com.adriankich.library.domain.service;
 
 import com.adriankich.library.application.dto.request.RenterRequestDTO;
+import com.adriankich.library.application.dto.response.BookResponseDTO;
 import com.adriankich.library.application.dto.response.RenterResponseDTO;
 import com.adriankich.library.domain.enums.Gender;
+import com.adriankich.library.domain.mapper.BookMapper;
 import com.adriankich.library.domain.mapper.RenterMapper;
+import com.adriankich.library.domain.model.Book;
+import com.adriankich.library.domain.model.Rental;
 import com.adriankich.library.domain.model.Renter;
+import com.adriankich.library.domain.service.utilities.RentalUtilities;
 import com.adriankich.library.domain.service.utilities.RenterUtilities;
 import com.adriankich.library.infrastructure.repository.RenterRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RenterService {
@@ -20,6 +28,9 @@ public class RenterService {
 
     @Autowired
     private RenterUtilities renterUtilities;
+
+    @Autowired
+    private RentalUtilities rentalUtilities;
 
     public RenterResponseDTO getRenterById(Long id) {
         return RenterMapper.entityToDto(renterUtilities.getRenterById(id));
@@ -44,15 +55,15 @@ public class RenterService {
         return RenterMapper.entityToDto(renterRepository.save(renter));
     }
 
-    public void teste(RenterRequestDTO renterRequestDTO) {
-        Renter renter = Renter.builder().name("aaa")
-                .cpf("asdasd")
-                .phone("asdasd")
-                .email("asdasda")
-                .birthDate(LocalDate.now())
-                .gender(Gender.MALE)
-                .build();
+    public List<BookResponseDTO> getBooksByRenter(Long renterId) {
+        Renter renter = renterUtilities.getRenterById(renterId);
 
-        renterRepository.save(renter);
+        List<Rental> rentals = rentalUtilities.getRentalByRenter(renter, false);
+
+        List<Book> books = rentals.stream()
+                .flatMap(rental -> rental.getBooks().stream())
+                .toList();
+
+        return books.stream().map(BookMapper::entityToDto).toList();
     }
 }

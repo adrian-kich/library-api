@@ -27,10 +27,19 @@ public class Rental {
 
     private boolean returned;
 
-    @ManyToMany(mappedBy = "rentals")
+    @ManyToMany
+    @JoinTable(
+            name = "lib_books_rentals",
+            joinColumns = @JoinColumn(name = "rental_id"),
+            inverseJoinColumns = @JoinColumn(name = "book_id"))
     private List<Book> books;
 
     @ManyToOne()
     @JoinColumn(name = "renter_id")
     private Renter renter;
+
+    public void removeBook(Book book) {
+        books.remove(book);
+        book.getRentals().remove(this);
+    }
 }
