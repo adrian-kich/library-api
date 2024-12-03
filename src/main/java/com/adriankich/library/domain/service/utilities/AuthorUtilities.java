@@ -1,6 +1,7 @@
 package com.adriankich.library.domain.service.utilities;
 
 import com.adriankich.library.domain.exception.AlreadyExistsException;
+import com.adriankich.library.domain.exception.CanNotDeleteException;
 import com.adriankich.library.domain.exception.NotFoundException;
 import com.adriankich.library.domain.model.Author;
 import com.adriankich.library.infrastructure.repository.AuthorRepository;
@@ -14,6 +15,9 @@ public class AuthorUtilities {
 
     @Autowired
     private AuthorRepository authorRepository;
+
+    @Autowired
+    private BookUtilities bookUtilities;
 
     public Author getAuthorById(Long id) {
         return authorRepository
@@ -39,5 +43,12 @@ public class AuthorUtilities {
                 throw new AlreadyExistsException("Já existe um autor cadastrado com esse CPF.");
             }
         });
+    }
+
+    public void validateDeletion(Author author) {
+        if(!bookUtilities.getBooksByAuthor(author).isEmpty())
+            throw new CanNotDeleteException(
+                    String.format("Não é possível deletar o autor #%s:%s pois o mesmo possuí livros associados."
+                            , author.getId(), author.getName()));
     }
 }

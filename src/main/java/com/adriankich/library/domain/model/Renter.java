@@ -40,7 +40,7 @@ public class Renter {
     @Column(nullable = false, unique = true)
     private String cpf;
 
-    @OneToMany(mappedBy = "renter")
+    @OneToMany(mappedBy = "renter", cascade = CascadeType.ALL)
     private List<Rental> rentals;
 
     @Column(name = "created_at",

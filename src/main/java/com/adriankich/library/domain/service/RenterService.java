@@ -58,12 +58,15 @@ public class RenterService {
     public List<BookResponseDTO> getBooksByRenter(Long renterId) {
         Renter renter = renterUtilities.getRenterById(renterId);
 
-        List<Rental> rentals = rentalUtilities.getRentalByRenter(renter, false);
-
-        List<Book> books = rentals.stream()
-                .flatMap(rental -> rental.getBooks().stream())
-                .toList();
+        List<Book> books = renterUtilities.getBooksByRenter(renter);
 
         return books.stream().map(BookMapper::entityToDto).toList();
+    }
+
+    public void deleteRenter(Long id) {
+        Renter renter = renterUtilities.getRenterById(id);
+        renterUtilities.validateDeletion(renter);
+
+        renterRepository.delete(renter);
     }
 }

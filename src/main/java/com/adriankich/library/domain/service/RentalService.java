@@ -61,6 +61,7 @@ public class RentalService {
             throw new RentAlreadyReturnedException("Os livros desse aluguel já foram retornados");
 
         rental.getBooks().forEach(bookService::returnBook);
+        rental.getBooks().clear();
         rental.setReturned(true);
 
         return RentalMapper.entityToDto(rentalRepository.save(rental));

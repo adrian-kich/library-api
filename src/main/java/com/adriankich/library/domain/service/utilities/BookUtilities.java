@@ -2,6 +2,7 @@ package com.adriankich.library.domain.service.utilities;
 
 import com.adriankich.library.domain.enums.BookState;
 import com.adriankich.library.domain.exception.BookUnavailableException;
+import com.adriankich.library.domain.exception.CanNotDeleteException;
 import com.adriankich.library.domain.exception.NotFoundException;
 import com.adriankich.library.domain.model.Author;
 import com.adriankich.library.domain.model.Book;
@@ -47,5 +48,12 @@ public class BookUtilities {
         if(book.getState() == BookState.UNAVAILABLE)
             throw new BookUnavailableException(
                     String.format("O livro #%s:%s não está disponível para locação", book.getId(), book.getName()));
+    }
+
+    public void validateDeletion(Book book) {
+        if(book.getState().equals(BookState.UNAVAILABLE))
+            throw new CanNotDeleteException(
+                    String.format("Não é possível deletar o livro #%s:%s pois o mesmo está alugado."
+                            , book.getId(), book.getName()));
     }
 }

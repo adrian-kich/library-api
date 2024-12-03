@@ -43,4 +43,10 @@ public class BookController extends Controller {
             @PathVariable Long id, @RequestBody @Valid BookRequestDTO bookRequestDTO) {
         return ok(bookService.updateBook(id, bookRequestDTO));
     }
+
+    @DeleteMapping("/{id}")
+    public  ResponseEntity<Void> deleteBook(@PathVariable Long id) {
+        bookService.deleteBook(id);
+        return noContent();
+    }
 }

@@ -44,4 +44,10 @@ public class AuthorController extends Controller {
     public ResponseEntity<List<BookResponseDTO>> getBooksByAuthor(@PathVariable Long id) {
         return ok(authorService.getBooksByAuthor(id));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAuthor(@PathVariable Long id) {
+        authorService.deleteAuthor(id);
+        return noContent();
+    }
 }

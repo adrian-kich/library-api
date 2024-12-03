@@ -39,4 +39,10 @@ public class RenterController extends Controller{
     public ResponseEntity<List<BookResponseDTO>> getBooksByRenter(@PathVariable Long id) {
         return ok(renterService.getBooksByRenter(id));
     }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteRenter(@PathVariable Long id) {
+        renterService.deleteRenter(id);
+        return noContent();
+    }
 }

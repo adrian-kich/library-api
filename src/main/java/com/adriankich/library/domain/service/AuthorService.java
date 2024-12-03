@@ -62,4 +62,11 @@ public class AuthorService {
                 .map(BookMapper::entityToDto)
                 .toList();
     }
+
+    public void deleteAuthor(Long id) {
+        Author author = authorUtilities.getAuthorById(id);
+        authorUtilities.validateDeletion(author);
+
+        authorRepository.delete(author);
+    }
 }
