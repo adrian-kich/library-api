@@ -11,13 +11,15 @@ public class RentalMapper {
     final static ApplicationContext context = ApplicationContext.getInstance();
 
     public static Rental dtoToEntity(RentalRequestDTO rentalRequestDTO) {
+        LocalDate rentalDate = (rentalRequestDTO.rentalDate() != null)
+                ? context.getLocalDate(rentalRequestDTO.rentalDate())
+                : LocalDate.now();
+
         return Rental.builder()
-                .rentalDate((rentalRequestDTO.rentalDate() != null)
-                                ? context.getLocalDate(rentalRequestDTO.rentalDate())
-                                : LocalDate.now())
+                .rentalDate(rentalDate)
                 .returnDate((rentalRequestDTO.days() != null)
-                                ? LocalDate.now().plusDays(rentalRequestDTO.days())
-                                : LocalDate.now().plusDays(2))
+                                ? rentalDate.plusDays(rentalRequestDTO.days() - 1)
+                                : rentalDate.plusDays(2))
                 .build();
     }
 

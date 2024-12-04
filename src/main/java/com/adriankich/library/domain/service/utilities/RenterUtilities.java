@@ -53,11 +53,4 @@ public class RenterUtilities {
             }
         });
     }
-
-    public void validateDeletion(Renter renter) {
-        if(!getBooksByRenter(renter).isEmpty())
-            throw new CanNotDeleteException(
-                    String.format("Não é possível deletar o locatário #%s:%s pois o mesmo possuí livros alugados."
-                            , renter.getId(), renter.getName()));
-    }
 }

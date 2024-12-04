@@ -62,11 +62,4 @@ public class RenterService {
 
         return books.stream().map(BookMapper::entityToDto).toList();
     }
-
-    public void deleteRenter(Long id) {
-        Renter renter = renterUtilities.getRenterById(id);
-        renterUtilities.validateDeletion(renter);
-
-        renterRepository.delete(renter);
-    }
 }

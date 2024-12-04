@@ -4,7 +4,6 @@ import com.adriankich.library.application.dto.request.RentalRequestDTO;
 import com.adriankich.library.application.dto.response.RentalResponseDTO;
 import com.adriankich.library.domain.exception.RentAlreadyReturnedException;
 import com.adriankich.library.domain.mapper.RentalMapper;
-import com.adriankich.library.domain.mapper.RenterMapper;
 import com.adriankich.library.domain.model.Book;
 import com.adriankich.library.domain.model.Rental;
 import com.adriankich.library.domain.model.Renter;
@@ -35,6 +34,8 @@ public class RentalService {
     @Autowired
     private BookService bookService;
 
+    @Autowired PaymentService paymentService;
+
     public RentalResponseDTO getRentalById(Long id) {
         return RentalMapper.entityToDto(rentalUtilities.getRentalById(id));
     }
@@ -63,6 +64,8 @@ public class RentalService {
         rental.getBooks().forEach(bookService::returnBook);
         rental.getBooks().clear();
         rental.setReturned(true);
+
+        paymentService.pay(rental);
 
         return RentalMapper.entityToDto(rentalRepository.save(rental));
     }
