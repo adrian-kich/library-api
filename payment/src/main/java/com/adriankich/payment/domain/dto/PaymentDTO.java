@@ -1,6 +1,6 @@
-package com.adriankich.library.domain.dto;
+package com.adriankich.payment.domain.dto;
 
-import com.adriankich.library.domain.enums.PaymentState;
+import com.adriankich.payment.domain.enums.PaymentState;
 
 import java.time.LocalDateTime;
 
