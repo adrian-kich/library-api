@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/api/books", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/v1/books", produces = MediaType.APPLICATION_JSON_VALUE)
 public class BookController extends Controller {
 
     @Autowired
