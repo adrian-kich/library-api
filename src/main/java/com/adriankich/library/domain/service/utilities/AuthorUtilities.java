@@ -19,7 +19,7 @@ public class AuthorUtilities {
     @Autowired
     private BookUtilities bookUtilities;
 
-    public Author getAuthorById(Long id) {
+    public Author  getAuthorById(Long id) {
         return authorRepository
                 .findById(id)
                 .orElseThrow(
@@ -38,8 +38,8 @@ public class AuthorUtilities {
     }
 
     public void validateUniqueCpf(Author author) {
-        authorRepository.findByCpf(author.getCpf()).ifPresent(existingRenter -> {
-            if (!existingRenter.getId().equals(author.getId())) {
+        authorRepository.findByCpf(author.getCpf()).ifPresent(existingAuthor -> {
+            if (!existingAuthor.getId().equals(author.getId())) {
                 throw new AlreadyExistsException("Já existe um autor cadastrado com esse CPF.");
             }
         });
